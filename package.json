@@ -1,0 +1,20 @@
+{
+  "name": "webgl-program",
+  "version": "1.0.0",
+  "description": "a webgl program exercise",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "webgl"
+  ],
+  "author": "zhaolei <leozhao.go@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "express": "^4.14.1"
+  },
+  "dependencies": {
+    "body-parser": "^1.16.1"
+  }
+}
