@@ -9,9 +9,12 @@ const VSHADER_SOURCE =
 	'precision mediump float;\n' +
 	'attribute vec4 a_Position;\n' +
 	'uniform float u_CosB, u_SinB;\n' + // 新增
+	// 'uniform vec3 u_CosBSinB;\n' + // 或者创建一个数组，存储cosB sinB
   'void main() {\n' +
 	'	gl_Position.x = a_Position.x * u_CosB - a_Position.y * u_SinB;\n' +
 	'	gl_Position.y = a_Position.x * u_SinB + a_Position.y * u_CosB;\n' +
+	// '	gl_Position.x = a_Position.x * u_CosBSinB.x - a_Position.y * u_CosBSinB.y ;\n' +
+	// '	gl_Position.y = a_Position.x * u_CosBSinB.y + a_Position.y * u_CosBSinB.x;\n' +
   ' gl_Position.z = a_Position.z;\n' +
   ' gl_Position.w = 1.0;\n' +
   '}\n';
@@ -54,11 +57,13 @@ function main () {
 	var a_Position = gl.getAttribLocation(gl.program, 'a_Position');
 	let u_SinB = gl.getUniformLocation(gl.program, 'u_SinB')
 	let u_CosB = gl.getUniformLocation(gl.program, 'u_CosB')
+	// let u_CosBSinB = gl.getUniformLocation(gl, program, 'u_CosBSinB)
 
 	// 数据传递
 	gl.vertexAttrib3f(a_Position, 0.0, 0.0, 0.0)
 	gl.uniform1f(u_SinB, sinB)
 	gl.uniform1f(u_CosB, cosB)
+	// gl.uniform2f(u_CosBSinB, cosB, sinB)
 
 	let n = initVertexBuffers(gl)
 	if( n < 0 ){
