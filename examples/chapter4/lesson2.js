@@ -52,43 +52,67 @@ function main () {
     console.log('Failed to initialize shaders')
     return;
   }
+  // 旋转速度
+	var ANGLE_STEP = 45.0;
+	var g_last = Date.now()
 
-	const ANGLE = 60;
-	let rad = Math.PI * ANGLE / 180; // 转弧度
-	let sinB = Math.sin(rad);
-	let cosB = Math.cos(rad);
+	window.upperAngleStep = function () {
+		ANGLE_STEP += 5
+		console.log('current angle step is '+ANGLE_STEP)
+	}
+
+	window.lowerAngleStep = function () {
+		ANGLE_STEP -= 5
+		console.log('current angle step is '+ANGLE_STEP)
+	}
+
 	// 获取attribute变量地址
 	var a_Position = gl.getAttribLocation(gl.program, 'a_Position');
-	let u_xformMatrix = gl.getUniformLocation(gl.program, 'u_xformMatrix')
+	var u_ModelMatrix = gl.getUniformLocation(gl.program, 'u_xformMatrix')
 
-	// 使用新的Matrix函数库进行数据传递
-	// 为旋转矩阵创建Matrix4
-	let xformMatrix = new Matrix4()
-	// 设置为旋转矩阵
-	// setRotate参数有4个，第一个为旋转角度，后三个为旋转周，x为1,0,0 y为0,1,0 z为0,0,1
-	xformMatrix
-		.setRotate(ANGLE, 0, 0, 1)
-		.translate(0.5,0.5,0)
-		.scale(1,1.5,1)
 	gl.vertexAttrib4f(a_Position, 0.0, 0.0, 0.0, 1.0)
-	gl.uniformMatrix4fv(u_xformMatrix, false, xformMatrix.elements)
 
-	let n = initVertexBuffers(gl)
+	var n = initVertexBuffers(gl)
 	if( n < 0 ){
 		console.log('Failed to set positions of vertices')
 		return ;
 	}
-
-	// 指定清空canvas颜色
-	gl.clearColor(0.0, 0.0, 0.0, 1.0)
-
-	// 清空canvas
-	gl.clear(gl.COLOR_BUFFER_BIT)
-	// 绘制
-	gl.drawArrays(gl.TRIANGLE_STRIP, 0, n)
-	// gl.drawArrays(gl.TRIANGLE_FAN, 0, n)
-
+	// 背景色
+	gl.clearColor( 0.0, 0.0, 0.0, 1.0)
+	//
+	// 当前旋转角度
+  var currentAngle = 0.0;
+	const modelMatrix = new Matrix4()
+	const tick = function () {
+		// console.log(1)
+		currentAngle = animate(currentAngle)
+		draw(gl, n, currentAngle, modelMatrix, u_ModelMatrix)
+		requestAnimationFrame(tick)
+	}
+	tick()
+	//
+	function draw (gl, n, currentAngle, modelMatrix, u_ModelMatrix) {
+		// 旋转
+		modelMatrix.setRotate(currentAngle, 0, 0, 1)
+		// 示例做实验
+		modelMatrix.translate(0.35, 0, 0)
+		// 矩阵传送给顶点着色器
+		gl.uniformMatrix4fv(u_ModelMatrix, false, modelMatrix.elements);
+		// 清除canvas
+		gl.clear(gl.COLOR_BUFFER_BIT);
+		//
+		gl.drawArrays(gl.TRIANGLES, 0, n)
+	}
+	//
+	function animate (angle) {
+		let now = Date.now();
+		let elapsed = now - g_last;
+		g_last = now
+		let newAngle = angle + ANGLE_STEP * elapsed / 1000.0
+		return newAngle %= 360
+	}
 }
+
 
 function initVertexBuffers (gl) {
 	let vertices = new Float32Array([
