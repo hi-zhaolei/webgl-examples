@@ -1,3 +1,6 @@
+import VSHADER_SOURCE from '../vshader/lesson2.vs'
+import FSHADER_SOURCE from '../fshader/lesson2.fs'
+
 function main () {
 
 	// 获取cavas元素
@@ -32,20 +35,5 @@ function main () {
   gl.drawArrays(gl.POINTS, 0, 1)
 
 }
-
-const VSHADER_SOURCE =
-  'void main() {\n' +
-  ' gl_Position = vec4(0.0, 0.0, 0.0, 1.0);\n' +
-  ' gl_PointSize = 10.0;\n' +
-  '}\n';
-
-const FSHADER_SOURCE =
-  'void main() {\n' +
-  ' gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);\n' +
-  '}\n';
-
-
-
-
 
 main()

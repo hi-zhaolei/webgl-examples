@@ -1,3 +1,6 @@
+import VSHADER_SOURCE from '../vshader/lesson3.vs'
+import FSHADER_SOURCE from '../fshader/lesson3.fs'
+
 function main () {
 
 	// 获取cavas元素
@@ -43,24 +46,6 @@ function main () {
   gl.drawArrays(gl.POINTS, 0, 1)
 
 }
-
-const VSHADER_SOURCE =
-	'precision mediump float;\n' +
-	'attribute vec4 a_Position;\n' +
-	'attribute float a_PointSize;\n' +
-  'void main() {\n' +
-  ' gl_Position = a_Position;\n' +
-  ' gl_PointSize = a_PointSize;\n' +
-  '}\n';
-
-const FSHADER_SOURCE =
-	'precision mediump float;\n' +
-	'uniform vec4 u_FragColor;\n' +
-  'void main() {\n' +
-  ' gl_FragColor = u_FragColor;\n' +
-  '}\n';
-
-
 
 
 main()
