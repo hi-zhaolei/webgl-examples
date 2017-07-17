@@ -100,8 +100,8 @@ some examples in WebGL Programming Guide
 * 参数:
     * location    指定待分配**attribute**变量的存储位置
     * size        指定缓冲区中每个顶点的分量个数（1到4）。若**size**比**attribute**变量需要的分量数小，缺失的分量将按照与`gl.vertexAttrib[1234]f()`
-                相同规则不全。
-    * type        用一下类型之一来指定数据格式
+                相同规则补全。
+    * type        用以下类型之一来指定数据格式
         * **gl.UNSIGNED_BYTE**  无符号字节, **Unit8Array**
         * **gl.SHORT**  短整数, **Int16Array**
         * **gl.UNSIGNED_SHORT**  无符号短整数, **Unit16Array**

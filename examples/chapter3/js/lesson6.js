@@ -55,20 +55,8 @@
 //
 //
 //
-// 顶点着色器
-const VSHADER_SOURCE =
-	'precision mediump float;\n' +
-	'attribute vec4 a_Position;\n' +
-	'uniform mat4 u_xformMatrix;\n' +
-  'void main() {\n' +
-	' gl_Position = u_xformMatrix * a_Position;\n' +
-  '}\n';
-// 片元着色器
-const FSHADER_SOURCE =
-	'precision mediump float;\n' +
-  'void main() {\n' +
-  ' gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);\n' +
-  '}\n';
+import VSHADER_SOURCE from '../vshader/lesson6.vs'
+import FSHADER_SOURCE from '../fshader/lesson1.fs'
 
 function main () {
 

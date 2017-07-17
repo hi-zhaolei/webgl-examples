@@ -1,0 +1,5 @@
+#!/bin/bash
+
+touch js/lesson$1.js
+touch fshader/lesson$1.fs
+touch vshader/lesson$1.vs

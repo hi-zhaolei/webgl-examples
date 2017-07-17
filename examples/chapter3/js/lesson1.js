@@ -1,3 +1,7 @@
+import VSHADER_SOURCE from '../vshader/lesson1.vs'
+import FSHADER_SOURCE from '../fshader/lesson1.fs'
+
+
 function main () {
 
 	// 获取cavas元素
@@ -39,23 +43,20 @@ function main () {
 	// 清空canvas		
 	gl.clear(gl.COLOR_BUFFER_BIT)
 	// 绘制
-	gl.drawArrays(gl.TRIANGLE_STRIP, 0, n)
-	// gl.drawArrays(gl.TRIANGLE_FAN, 0, n)
+	gl.drawArrays(gl.POINTS, 0, n)
 
 }
 
 function initVertexBuffers (gl) {
 	let vertices = new Float32Array([
-		-0.5,
+		0.0,
 		0.5,
 		-0.5,
 		-0.5,
-		0.5,
-		0.5,
 		0.5,
 		-0.5
 	])
-	let n = ( 0.5 + vertices.length/2 ) | 0; // points number
+	let n = 3; // points number
 	let vertexBuffer = gl.createBuffer();
 	if(!vertexBuffer){
 		console.log('Failed to create buffer object!')
@@ -74,23 +75,5 @@ function initVertexBuffers (gl) {
 	gl.enableVertexAttribArray(a_Position)
 	return n;
 }
-
-
-const VSHADER_SOURCE =
-	'precision mediump float;\n' +
-	'attribute vec4 a_Position;\n' +
-  'void main() {\n' +
-  ' gl_Position = a_Position;\n' +
-  ' gl_PointSize = 10.0;\n' +
-  '}\n';
-
-const FSHADER_SOURCE =
-	'precision mediump float;\n' +
-  'void main() {\n' +
-  ' gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);\n' +
-  '}\n';
-
-
-
 
 main()

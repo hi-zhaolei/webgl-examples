@@ -6,8 +6,10 @@
 // 4.将缓存区对象分配给对应的attribute变量
 // 5.开启attribute变量
 // 顶点着色器
-import VSHADER_SOURCE from '../vshader/lesson1.vs'
+import VSHADER_SOURCE from '../vshader/lesson2.vs'
 import FSHADER_SOURCE from '../fshader/lesson1.fs'
+
+var gl, n, u_ViewModelMatrix, viewMatrix, modelMatrix
 
 function main () {
 
@@ -19,7 +21,7 @@ function main () {
 	}
 
 	// 获取WebGL绘图上下文
-	var gl = getWebGLContext(canvas)
+	gl = getWebGLContext(canvas)
 
 	if(!gl){
 		console.log('Failed to get the rendering context for WebGL')
@@ -32,28 +34,28 @@ function main () {
 	}
 
 	// 初始化顶点缓存
-	var n = initVertexBuffers(gl)
+	n = initVertexBuffers(gl)
 	
 	// 获取uniform变量
-	var u_ViewMatrix = gl.getUniformLocation(gl.program, 'u_ViewMatrix');
-	var u_ModelMatrix = gl.getUniformLocation(gl.program, 'u_ModelMatrix')
+	u_ViewModelMatrix = gl.getUniformLocation(gl.program, 'u_ViewModelMatrix');
 
 	// 设置视点，视线和上方向, 获取视图矩阵
-	var viewMatrix = new Matrix4();
+	viewMatrix = new Matrix4();
 	viewMatrix.setLookAt(0.20, 0.25, 0.25, 0, 0, 0, 0, 1, 0)
-	// 视图矩阵传给u_ViewMatrix变量
-	gl.uniformMatrix4fv(u_ViewMatrix, false, viewMatrix.elements)
 
 	// 获取模型矩阵
-	var modelMatrix = new Matrix4()
-	modelMatrix.setRotate(-10, 0, 0, 1);
-	gl.uniformMatrix4fv(u_ModelMatrix, false, modelMatrix.elements)
+	modelMatrix = new Matrix4()
+  modelMatrix.setRotate(-10, 0, 0, 1);
+  
+  var viewModelMatrix = viewMatrix.multiply(modelMatrix)
+	gl.uniformMatrix4fv(u_ViewModelMatrix, false, viewModelMatrix.elements)
 
 	// 背景色
 	gl.clearColor( 0.0, 0.0, 0.0, 1.0)
 	gl.clear(gl.COLOR_BUFFER_BIT)
 	//
-	gl.drawArrays(gl.TRIANGLES, 0, n);
+  gl.drawArrays(gl.TRIANGLES, 0, n);
+  
 }
 
 function initVertexBuffers (gl) {
@@ -97,5 +99,39 @@ function initVertexBuffers (gl) {
 
 	return n;
 }
+
+function draw () {
+  // 视图矩阵
+  var eyeX = document.getElementsByName('eyeX')[0].value / 100;
+  var eyeY = document.getElementsByName('eyeY')[0].value / 100;
+  var eyeZ = document.getElementsByName('eyeZ')[0].value / 100;
+  viewMatrix.setLookAt( eyeX, eyeY, eyeZ, 0, 0, 0, 0, 1, 0)
+  // 模型矩阵
+  var rotate = document.getElementsByName('rotate')[0].value;
+  modelMatrix.setRotate(+rotate, 0, 0, 1);
+  // 
+  var viewModelMatrix = viewMatrix.multiply(modelMatrix)
+	gl.uniformMatrix4fv(u_ViewModelMatrix, false, viewModelMatrix.elements)
+
+  gl.clear(gl.COLOR_BUFFER_BIT)
+
+  gl.drawArrays(gl.TRIANGLES, 0, n);
+}
+
+function initDom (txt, name, max, min) {
+  var dom = document.createElement('div');
+  dom.innerHTML = `${txt}: <input type="range" name="${name}" max="${max}" min="${min}" value="0" step="5"/><span>0</span>`;
+  dom.getElementsByTagName('input')[0].onchange = function() {
+    dom.getElementsByTagName('span')[0].innerHTML = this.value;
+    draw()
+  }
+  document.body.appendChild(dom)
+}
+
+initDom('视点X', 'eyeX', 100, -100)
+initDom('视点Y', 'eyeY', 100, -100)
+initDom('视点Z', 'eyeZ', 100, -100)
+initDom('角度', 'rotate', 360, 0)
+// initDom('透明度', 'opacity', 100, 0)
 
 main()

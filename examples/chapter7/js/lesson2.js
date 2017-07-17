@@ -6,8 +6,9 @@
 // 4.将缓存区对象分配给对应的attribute变量
 // 5.开启attribute变量
 // 顶点着色器
-import VSHADER_SOURCE from '../vshader/lesson1.vs'
-import FSHADER_SOURCE from '../fshader/lesson1.fs'
+import VSHADER_SOURCE from '../vshader/lesson2.vs'
+import FSHADER_SOURCE from '../fshader/lesson2.fs'
+
 
 function main () {
 
@@ -35,19 +36,18 @@ function main () {
 	var n = initVertexBuffers(gl)
 	
 	// 获取uniform变量
-	var u_ViewMatrix = gl.getUniformLocation(gl.program, 'u_ViewMatrix');
-	var u_ModelMatrix = gl.getUniformLocation(gl.program, 'u_ModelMatrix')
+	var u_ViewModelMatrix = gl.getUniformLocation(gl.program, 'u_ViewModelMatrix');
 
 	// 设置视点，视线和上方向, 获取视图矩阵
 	var viewMatrix = new Matrix4();
 	viewMatrix.setLookAt(0.20, 0.25, 0.25, 0, 0, 0, 0, 1, 0)
-	// 视图矩阵传给u_ViewMatrix变量
-	gl.uniformMatrix4fv(u_ViewMatrix, false, viewMatrix.elements)
 
 	// 获取模型矩阵
 	var modelMatrix = new Matrix4()
-	modelMatrix.setRotate(-10, 0, 0, 1);
-	gl.uniformMatrix4fv(u_ModelMatrix, false, modelMatrix.elements)
+  modelMatrix.setRotate(-10, 0, 0, 1);
+  
+  var viewModelMatrix = viewMatrix.multiply(modelMatrix)
+	gl.uniformMatrix4fv(u_ViewModelMatrix, false, viewModelMatrix.elements)
 
 	// 背景色
 	gl.clearColor( 0.0, 0.0, 0.0, 1.0)
