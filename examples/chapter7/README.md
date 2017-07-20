@@ -2,15 +2,15 @@
 
 前几章我们了解了WebGL的工作原理，着色器的使用，矩阵的变换，动画纹理等，这一章我们主要研究几个问题：
 
-以用户视角而进入三维世界
+1. 以用户视角而进入三维世界
 
-控制三维可视空间
+2. 控制三维可视空间
 
-裁剪
+3. 裁剪
 
-处理物体前后关系
+4. 处理物体前后关系
 
-绘制三角形
+5. 绘制三角形
 
 ## 视线和视点
 
@@ -60,7 +60,7 @@ Matrix4.setLookAt(eyeX, eyeY, eyeZ, atX, atY, atZ, upX, upY, upZ)
 
 #### 正射投影矩阵
 
-`Matrix4.setOrtho(left, right, bottom, top, near, far)`
+`Matrix4.setOrtho(left, right, bottom, top, near, far)`
 
 通过各参数计算正射投影矩阵，将其存储在Matrix4中。left和right，top和bottom不一定相等，near与far不能相等
 
