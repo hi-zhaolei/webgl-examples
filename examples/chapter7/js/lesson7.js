@@ -6,10 +6,8 @@
 // 4.将缓存区对象分配给对应的attribute变量
 // 5.开启attribute变量
 // 顶点着色器
-import VSHADER_SOURCE from '../vshader/lesson2.vs'
+import VSHADER_SOURCE from '../vshader/lesson7.vs'
 import FSHADER_SOURCE from '../fshader/lesson1.fs'
-
-var gl, n, u_ViewModelMatrix, viewMatrix, modelMatrix, proMatrix;
 
 function main () {
 
@@ -21,7 +19,7 @@ function main () {
 	}
 
 	// 获取WebGL绘图上下文
-	gl = getWebGLContext(canvas)
+	var gl = getWebGLContext(canvas)
 
 	if(!gl){
 		console.log('Failed to get the rendering context for WebGL')
@@ -34,53 +32,66 @@ function main () {
 	}
 
 	// 初始化顶点缓存
-	n = initVertexBuffers(gl)
+	var n = initVertexBuffers(gl)
 
-	// 设置视点，视线和上方向, 获取视图矩阵
-	viewMatrix = new Matrix4();
-	viewMatrix.setLookAt(0, 0, 0, 0, 0, -1, 0, 1, 0)
+	// 视图矩阵
+	var viewMatrix = new Matrix4();
+  viewMatrix.setLookAt(0, 0, 5, 0, 0, -100, 0, 1, 5)
+  // var u_ViewMatrix = gl.getUniformLocation(gl.program, 'u_ViewMatrix');
+  // gl.uniformMatrix4fv(u_ViewMatrix, false, viewMatrix.elements)
 
-	// 获取正射投影矩阵
-  proMatrix = new Matrix4()
-  proMatrix.setOrtho(-1, 1, -1, 1, 0, 0.5);
-  // 等比放大
-  // proMatrix.setOrtho(-0.5, 0.5, -0.5, 0.5, 0, 0.5);
-  // 扭曲
-  // proMatrix.setOrtho(-1, 1, -0.5, 0.5, 0, 0.5);
+	// 透视投影矩阵
+  var projMatrix = new Matrix4()
+  projMatrix.setPerspective(30, canvas.height / canvas.width, 1, 100);
+  // var u_ProjMatrix = gl.getUniformLocation(gl.program, 'u_ProjMatrix');
+  // gl.uniformMatrix4fv(u_ProjMatrix, false, projMatrix.elements)
   
-  // 获取正射投影矩阵
-  modelMatrix = new Matrix4()
-  modelMatrix.setRotate(0,0,0,1)
+  // 模型矩阵
+  var modelMatrix = new Matrix4()
+  modelMatrix.setTranslate(0.75,0,0);
+  // var u_ModelMatrix = gl.getUniformLocation(gl.program, 'u_ModelMatrix');
+  // gl.uniformMatrix4fv(u_ModelMatrix, false, modelMatrix.elements)
 
-  // 获取uniform变量
-	u_ViewModelMatrix = gl.getUniformLocation(gl.program, 'u_ViewModelMatrix');
-  var viewModelMatrix = proMatrix.multiply(modelMatrix)
-	gl.uniformMatrix4fv(u_ViewModelMatrix, false, viewModelMatrix.elements)
+  // 合并矩阵
+  var mvpMatrix = new Matrix4()
+  mvpMatrix.set(projMatrix).multiply(viewMatrix).multiply(modelMatrix)
+  var u_MvpMatrix = gl.getUniformLocation(gl.program, 'u_MvpMatrix');
+  gl.uniformMatrix4fv(u_MvpMatrix, false, mvpMatrix.elements)
 
 	// 背景色
 	gl.clearColor( 0.0, 0.0, 0.0, 1.0)
 	gl.clear(gl.COLOR_BUFFER_BIT)
 	//
   gl.drawArrays(gl.TRIANGLES, 0, n);
+
+  // modelMatrix.setTranslate(-0.75,0,0)
+  // gl.uniformMatrix4fv(u_ModelMatrix, false, modelMatrix.elements)
+  //
+  modelMatrix.setTranslate(-0.75,0,0);
+  mvpMatrix.set(projMatrix).multiply(viewMatrix).multiply(modelMatrix)
+  gl.uniformMatrix4fv(u_MvpMatrix, false, mvpMatrix.elements)  
+  // 
+  gl.drawArrays(gl.TRIANGLES, 0, n);
   
 }
 
 function initVertexBuffers (gl) {
 	var verticesColors = new Float32Array([
-		// 绿色
-		0.5, 0.5, -0.4, 0.4, 1.0, 0.4,
-		0.5, -0.5, -0.4, 0.4, 1.0, 0.4,
-		-0.5, 0, -0.4, 0.4, 1.0, 0.4,
+    // 右侧
+    // 绿色
+    0.0, 1.0, -4.0, 0.4, 1.0, 0.4,
+    0.4, -1.0, -4.0, 0.4, 1.0, 0.4,
+    -0.4, -1.0, -4.0, 0.4, 1.0, 0.4,
 
 		// 黄色
-		0.5, 0.5, -0.2, 1.0, 1.0, 0.4,
-		-0.5, 0.5, -0.2, 1.0, 1.0, 0.4,
-		0.0, -0.5, -0.2, 1.0, 1.0, 0.4,
+		0.0, 1.0, -2.0, 1.0, 1.0, 0.4,
+		0.4, -1.0, -2.0, 1.0, 1.0, 0.4,
+		-0.4, -1.0, -2.0, 1.0, 1.0, 0.4,
 
 		// 蓝色
-		0.0, 0.5, 0.0, 0.4, 0.4, 1.0,
-		-0.5, -0.5, 0.0, 0.4, 0.4, 1.0,
-		0.5, -0.5, 0.0, 0.4, 0.4, 1.0,
+		0.0, 1.0, 0.0, 0.4, 0.4, 1.0,
+		0.4, -1.0, 0.0, 0.4, 0.4, 1.0,
+    -0.4, -1.0, 0.0, 0.4, 0.4, 1.0,
 	]);
 	var n = verticesColors.length / 6
 	var vertexColorBuffer = gl.createBuffer();
@@ -126,20 +137,5 @@ function draw () {
 
   gl.drawArrays(gl.TRIANGLES, 0, n);
 }
-
-function initDom (txt, name, max, min, def) {
-  var dom = document.createElement('div');
-  dom.innerHTML = `${txt}: <input type="range" name="${name}" max="${max}" min="${min}" value="${def||min}" step="10"/><span>${def||min}</span>`;
-  dom.getElementsByTagName('input')[0].onchange = function() {
-    dom.getElementsByTagName('span')[0].innerHTML = this.value;
-    draw()
-  }
-  document.body.appendChild(dom)
-}
-
-initDom('near', 'near', 100, -100, 0)
-initDom('far', 'far', 200, 0, 50)
-initDom('rotateX', 'rotateX', 360, 0)
-initDom('rotateY', 'rotateY', 360, 0)
 
 main()

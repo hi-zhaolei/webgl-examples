@@ -36,25 +36,21 @@ function main () {
 	// 初始化顶点缓存
 	n = initVertexBuffers(gl)
 
-	// 设置视点，视线和上方向, 获取视图矩阵
+	// 视图矩阵
 	viewMatrix = new Matrix4();
-	viewMatrix.setLookAt(0, 0, 0, 0, 0, -1, 0, 1, 0)
+	viewMatrix.setLookAt(0, 0, 5, 0, 0, -100, 0, 1, 5)
 
-	// 获取正射投影矩阵
+	// 透视投影矩阵
   proMatrix = new Matrix4()
-  proMatrix.setOrtho(-1, 1, -1, 1, 0, 0.5);
-  // 等比放大
-  // proMatrix.setOrtho(-0.5, 0.5, -0.5, 0.5, 0, 0.5);
-  // 扭曲
-  // proMatrix.setOrtho(-1, 1, -0.5, 0.5, 0, 0.5);
+  proMatrix.setPerspective(30, canvas.height / canvas.width, 1, 100);
   
-  // 获取正射投影矩阵
+  // 模型矩阵
   modelMatrix = new Matrix4()
   modelMatrix.setRotate(0,0,0,1)
 
   // 获取uniform变量
 	u_ViewModelMatrix = gl.getUniformLocation(gl.program, 'u_ViewModelMatrix');
-  var viewModelMatrix = proMatrix.multiply(modelMatrix)
+  var viewModelMatrix = proMatrix.multiply(viewMatrix).multiply(modelMatrix)
 	gl.uniformMatrix4fv(u_ViewModelMatrix, false, viewModelMatrix.elements)
 
 	// 背景色
@@ -67,20 +63,35 @@ function main () {
 
 function initVertexBuffers (gl) {
 	var verticesColors = new Float32Array([
-		// 绿色
-		0.5, 0.5, -0.4, 0.4, 1.0, 0.4,
-		0.5, -0.5, -0.4, 0.4, 1.0, 0.4,
-		-0.5, 0, -0.4, 0.4, 1.0, 0.4,
+    // 右侧
+    0.75, 1.0, -4.0, 0.4, 1.0, 0.4,
+    0.25, -1.0, -4.0, 0.4, 1.0, 0.4,
+    1.25, -1.0, -4.0, 0.4, 1.0, 0.4,
 
 		// 黄色
-		0.5, 0.5, -0.2, 1.0, 1.0, 0.4,
-		-0.5, 0.5, -0.2, 1.0, 1.0, 0.4,
-		0.0, -0.5, -0.2, 1.0, 1.0, 0.4,
+		0.75, 1.0, -2.0, 1.0, 1.0, 0.4,
+		0.25, -1.0, -2.0, 1.0, 1.0, 0.4,
+		1.25, -1.0, -2.0, 1.0, 1.0, 0.4,
 
 		// 蓝色
-		0.0, 0.5, 0.0, 0.4, 0.4, 1.0,
-		-0.5, -0.5, 0.0, 0.4, 0.4, 1.0,
-		0.5, -0.5, 0.0, 0.4, 0.4, 1.0,
+		0.75, 1.0, 0.0, 0.4, 0.4, 1.0,
+		0.25, -1.0, 0.0, 0.4, 0.4, 1.0,
+    1.25, -1.0, 0.0, 0.4, 0.4, 1.0,
+    
+    // 左侧
+    -0.75, 1.0, -4.0, 0.4, 1.0, 0.4,
+    -0.25, -1.0, -4.0, 0.4, 1.0, 0.4,
+    -1.25, -1.0, -4.0, 0.4, 1.0, 0.4,
+
+		// 黄色
+		-0.75, 1.0, -2.0, 1.0, 1.0, 0.4,
+		-0.25, -1.0, -2.0, 1.0, 1.0, 0.4,
+		-1.25, -1.0, -2.0, 1.0, 1.0, 0.4,
+
+		// 蓝色
+		-0.75, 1.0, 0.0, 0.4, 0.4, 1.0,
+		-0.25, -1.0, 0.0, 0.4, 0.4, 1.0,
+    -1.25, -1.0, 0.0, 0.4, 0.4, 1.0,
 	]);
 	var n = verticesColors.length / 6
 	var vertexColorBuffer = gl.createBuffer();

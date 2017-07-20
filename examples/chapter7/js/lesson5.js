@@ -38,7 +38,7 @@ function main () {
 
 	// 设置视点，视线和上方向, 获取视图矩阵
 	viewMatrix = new Matrix4();
-	viewMatrix.setLookAt(0, 0, 0, 0, 0, -1, 0, 1, 0)
+	viewMatrix.setLookAt(0, 0, 0, 0, 0, -0.5, 0, 1, 0)
 
 	// 获取正射投影矩阵
   proMatrix = new Matrix4()
@@ -54,7 +54,7 @@ function main () {
 
   // 获取uniform变量
 	u_ViewModelMatrix = gl.getUniformLocation(gl.program, 'u_ViewModelMatrix');
-  var viewModelMatrix = proMatrix.multiply(modelMatrix)
+  var viewModelMatrix = proMatrix.multiply(viewMatrix).multiply(modelMatrix)
 	gl.uniformMatrix4fv(u_ViewModelMatrix, false, viewModelMatrix.elements)
 
 	// 背景色

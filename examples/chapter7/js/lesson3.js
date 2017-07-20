@@ -41,11 +41,11 @@ function main () {
 
 	// 设置视点，视线和上方向, 获取视图矩阵
 	viewMatrix = new Matrix4();
-	viewMatrix.setLookAt(0.20, 0.25, 0.25, 0, 0, 0, 0, 1, 0)
+	viewMatrix.setLookAt(0.25, 0.25, -1.0, 0, 0, 0, 0.25, 0.5, -1.0)
 
 	// 获取模型矩阵
 	modelMatrix = new Matrix4()
-  modelMatrix.setRotate(-10, 0, 0, 1);
+  modelMatrix.setRotate(0, 1, 0, 0);
   
   var viewModelMatrix = viewMatrix.multiply(modelMatrix)
 	gl.uniformMatrix4fv(u_ViewModelMatrix, false, viewModelMatrix.elements)
@@ -61,19 +61,19 @@ function main () {
 function initVertexBuffers (gl) {
 	var verticesColors = new Float32Array([
 		// 绿色
-		0.0, 0.5, -0.4, 0.4, 1.0, 0.4,
-		-0.5, -0.5, -0.4, 0.4, 1.0, 0.4,
-		0.5, -0.5, -0.4, 1.0, 0.4, 0.4,
+		0.5, 0.5, -0.4, 0.4, 1.0, 0.4,
+		0.5, -0.5, -0.4, 0.4, 1.0, 0.4,
+		-0.5, 0, -0.4, 0.4, 1.0, 0.4,
 
 		// 黄色
-		0.5, 0.4, -0.2, 1.0, 0.4, 0.4,
-		-0.5, 0.4, -0.2, 1.0, 1.0, 0.4,
-		0.0, -0.6, -0.2, 1.0, 1.0, 0.4,
+		0.5, 0.5, -0.2, 1.0, 1.0, 0.4,
+		-0.5, 0.5, -0.2, 1.0, 1.0, 0.4,
+		0.0, -0.5, -0.2, 1.0, 1.0, 0.4,
 
 		// 蓝色
 		0.0, 0.5, 0.0, 0.4, 0.4, 1.0,
 		-0.5, -0.5, 0.0, 0.4, 0.4, 1.0,
-		0.5, -0.5, 0.0, 1.0, 0.4, 0.4,
+		0.5, -0.5, 0.0, 0.4, 0.4, 1.0,
 	]);
 	var n = verticesColors.length / 6
 	var vertexColorBuffer = gl.createBuffer();
