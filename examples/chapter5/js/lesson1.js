@@ -6,20 +6,8 @@
 // 4.将缓存区对象分配给对应的attribute变量
 // 5.开启attribute变量
 // 顶点着色器
-const VSHADER_SOURCE =
-	'precision mediump float;\n' +
-	'attribute vec4 a_Position;\n' +
-	'attribute float a_PointSize;\n' +
-  'void main() {\n' +
-	' gl_Position = a_Position;\n' +
-	' gl_PointSize = a_PointSize;\n' +
-  '}\n';
-// 片元着色器
-const FSHADER_SOURCE =
-	'precision mediump float;\n' +
-  'void main() {\n' +
-  ' gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);\n' +
-  '}\n';
+import VSHADER_SOURCE from '../vshader/lesson1.vs'
+import FSHADER_SOURCE from '../fshader/lesson1.fs'
 
 function main () {
 

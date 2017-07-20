@@ -50,7 +50,7 @@ app.get("/dist/bundle.js", function(req, res){
 app.get('/*', function(req, res){
 	const filePath = path.join(__dirname,req.path)
 	if(fs.statSync(filePath).isFile()){
-		console.log(filePath)
+		// console.log(filePath)
 		res.sendFile(filePath, function(err){
 			if ( err ) console.log(err)
 		})
