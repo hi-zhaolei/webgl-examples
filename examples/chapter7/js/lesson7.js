@@ -6,7 +6,7 @@
 // 4.将缓存区对象分配给对应的attribute变量
 // 5.开启attribute变量
 // 顶点着色器
-import VSHADER_SOURCE from '../vshader/lesson7.vs'
+import VSHADER_SOURCE from '../vshader/lesson6.vs'
 import FSHADER_SOURCE from '../fshader/lesson1.fs'
 
 function main () {
@@ -58,9 +58,11 @@ function main () {
   var u_MvpMatrix = gl.getUniformLocation(gl.program, 'u_MvpMatrix');
   gl.uniformMatrix4fv(u_MvpMatrix, false, mvpMatrix.elements)
 
+  // 开启隐藏面消除
+  gl.enable(gl.DEPTH_TEST);
 	// 背景色
 	gl.clearColor( 0.0, 0.0, 0.0, 1.0)
-	gl.clear(gl.COLOR_BUFFER_BIT)
+	gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
 	//
   gl.drawArrays(gl.TRIANGLES, 0, n);
 
@@ -78,20 +80,20 @@ function main () {
 function initVertexBuffers (gl) {
 	var verticesColors = new Float32Array([
     // 右侧
-    // 绿色
-    0.0, 1.0, -4.0, 0.4, 1.0, 0.4,
-    0.4, -1.0, -4.0, 0.4, 1.0, 0.4,
-    -0.4, -1.0, -4.0, 0.4, 1.0, 0.4,
-
-		// 黄色
-		0.0, 1.0, -2.0, 1.0, 1.0, 0.4,
-		0.4, -1.0, -2.0, 1.0, 1.0, 0.4,
-		-0.4, -1.0, -2.0, 1.0, 1.0, 0.4,
-
 		// 蓝色
 		0.0, 1.0, 0.0, 0.4, 0.4, 1.0,
 		0.4, -1.0, 0.0, 0.4, 0.4, 1.0,
     -0.4, -1.0, 0.0, 0.4, 0.4, 1.0,
+
+		// 黄色
+		0.0, 1.0, -2.0, 1.0, 1.0, 0.4,
+		0.4, -1.0, -2.0, 1.0, 1.0, 0.4,
+    -0.4, -1.0, -2.0, 1.0, 1.0, 0.4,
+    
+    // 绿色
+    0.0, 1.0, -4.0, 0.4, 1.0, 0.4,
+    0.4, -1.0, -4.0, 0.4, 1.0, 0.4,
+    -0.4, -1.0, -4.0, 0.4, 1.0, 0.4,
 	]);
 	var n = verticesColors.length / 6
 	var vertexColorBuffer = gl.createBuffer();
@@ -116,26 +118,6 @@ function initVertexBuffers (gl) {
 	gl.enableVertexAttribArray(a_Color)
 
 	return n;
-}
-
-function draw () {
-  // 视图矩阵
-  var near = document.getElementsByName('near')[0].value / 100;
-  var far = document.getElementsByName('far')[0].value / 100;
-  // viewMatrix.setLookAt( eyeX, eyeY, eyeZ, 0, 0, 0, 0, 1, 0)
-  proMatrix.setOrtho(-1, 1, -1, 1, near, far);
-  // 模型矩阵
-  var rotateX = document.getElementsByName('rotateX')[0].value;
-  var rotateY = document.getElementsByName('rotateY')[0].value;
-  console.log(rotateX,rotateY)
-  modelMatrix.setRotate(+rotateX, 1, 0, 0).rotate(+rotateY, 0, 1, 0);
-  // 
-  var viewModelMatrix = proMatrix.multiply(modelMatrix)
-	gl.uniformMatrix4fv(u_ViewModelMatrix, false, viewModelMatrix.elements)
-
-  gl.clear(gl.COLOR_BUFFER_BIT)
-
-  gl.drawArrays(gl.TRIANGLES, 0, n);
 }
 
 main()

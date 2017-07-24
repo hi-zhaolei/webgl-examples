@@ -41,7 +41,7 @@ function main () {
 
 	// 设置视点，视线和上方向, 获取视图矩阵
 	viewMatrix = new Matrix4();
-	viewMatrix.setLookAt(0.25, 0.25, -1.0, 0, 0, 0, 0.25, 0.5, -1.0)
+	viewMatrix.setLookAt(0, 0, 0.5, 0, 0, 0, 0, 1, 0)
 
 	// 获取模型矩阵
 	modelMatrix = new Matrix4()
@@ -118,9 +118,9 @@ function draw () {
   gl.drawArrays(gl.TRIANGLES, 0, n);
 }
 
-function initDom (txt, name, max, min) {
+function initDom (txt, name, max, min, def) {
   var dom = document.createElement('div');
-  dom.innerHTML = `${txt}: <input type="range" name="${name}" max="${max}" min="${min}" value="0" step="5"/><span>0</span>`;
+  dom.innerHTML = `${txt}: <input type="range" name="${name}" max="${max}" min="${min}" value="${def}" step="5"/><span>${def}</span>`;
   dom.getElementsByTagName('input')[0].onchange = function() {
     dom.getElementsByTagName('span')[0].innerHTML = this.value;
     draw()
@@ -128,10 +128,10 @@ function initDom (txt, name, max, min) {
   document.body.appendChild(dom)
 }
 
-initDom('视点X', 'eyeX', 100, -100)
-initDom('视点Y', 'eyeY', 100, -100)
-initDom('视点Z', 'eyeZ', 100, -100)
-initDom('角度', 'rotate', 360, 0)
+initDom('视点X', 'eyeX', 100, -100, 0)
+initDom('视点Y', 'eyeY', 100, -100, 0)
+initDom('视点Z', 'eyeZ', 100, -100, 50)
+initDom('角度', 'rotate', 360, 0, 0)
 // initDom('透明度', 'opacity', 100, 0)
 
 main()

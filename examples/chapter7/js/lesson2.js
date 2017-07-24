@@ -7,7 +7,7 @@
 // 5.开启attribute变量
 // 顶点着色器
 import VSHADER_SOURCE from '../vshader/lesson2.vs'
-import FSHADER_SOURCE from '../fshader/lesson2.fs'
+import FSHADER_SOURCE from '../fshader/lesson1.fs'
 
 
 function main () {

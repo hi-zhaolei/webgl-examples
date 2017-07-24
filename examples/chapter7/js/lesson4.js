@@ -38,7 +38,7 @@ function main () {
 
 	// 设置视点，视线和上方向, 获取视图矩阵
 	viewMatrix = new Matrix4();
-	viewMatrix.setLookAt(0, 0, 0, 0, 0, -1, 0, 1, 0)
+	viewMatrix.setLookAt(0, 0, 0, 0, 0, -100, 0, 1, 0)
 
 	// 获取正射投影矩阵
   proMatrix = new Matrix4()
@@ -54,7 +54,7 @@ function main () {
 
   // 获取uniform变量
 	u_ViewModelMatrix = gl.getUniformLocation(gl.program, 'u_ViewModelMatrix');
-  var viewModelMatrix = proMatrix.multiply(modelMatrix)
+  var viewModelMatrix = proMatrix.multiply(viewMatrix).multiply(modelMatrix)
 	gl.uniformMatrix4fv(u_ViewModelMatrix, false, viewModelMatrix.elements)
 
 	// 背景色
@@ -129,7 +129,7 @@ function draw () {
 
 function initDom (txt, name, max, min, def) {
   var dom = document.createElement('div');
-  dom.innerHTML = `${txt}: <input type="range" name="${name}" max="${max}" min="${min}" value="${def||min}" step="10"/><span>${def||min}</span>`;
+  dom.innerHTML = `${txt}: <input type="range" name="${name}" max="${max}" min="${min}" value="${def}" step="10"/><span>${def}</span>`;
   dom.getElementsByTagName('input')[0].onchange = function() {
     dom.getElementsByTagName('span')[0].innerHTML = this.value;
     draw()
@@ -139,7 +139,7 @@ function initDom (txt, name, max, min, def) {
 
 initDom('near', 'near', 100, -100, 0)
 initDom('far', 'far', 200, 0, 50)
-initDom('rotateX', 'rotateX', 360, 0)
-initDom('rotateY', 'rotateY', 360, 0)
+initDom('rotateX', 'rotateX', 360, 0, 0)
+initDom('rotateY', 'rotateY', 360, 0, 0)
 
 main()

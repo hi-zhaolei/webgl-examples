@@ -6,7 +6,7 @@
 // 4.将缓存区对象分配给对应的attribute变量
 // 5.开启attribute变量
 // 顶点着色器
-import VSHADER_SOURCE from '../vshader/lesson7.vs'
+import VSHADER_SOURCE from '../vshader/lesson6.vs'
 import FSHADER_SOURCE from '../fshader/lesson1.fs'
 
 function main () {
@@ -65,9 +65,8 @@ function main () {
 	gl.clearColor( 0.0, 0.0, 0.0, 1.0)
 	gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
 	//
-  gl.drawArrays(gl.TRIANGLES, 0, n);
-  // gl.drawArrays(gl.TRIANGLE_STRIP, 0, n);
-	// gl.drawArrays(gl.TRIANGLE_STRIP, 0, n);
+  gl.drawElements(gl.TRIANGLES, n, gl.UNSIGNED_BYTE, 0)
+  
 	var rotateX = 0;
 	var rotateY = 0;
 	var iBtn = false;
@@ -88,69 +87,30 @@ function main () {
 
 		gl.clear(gl.COLOR_BUFFER_BIT)
 
-  	gl.drawArrays(gl.TRIANGLES, 0, n);
+    // gl.drawArrays(gl.TRIANGLES, 0, n);
+    gl.drawElements(gl.TRIANGLES, n, gl.UNSIGNED_BYTE, 0)
 	}, false)
 }
 
 function initVertexBuffers (gl) {
-	var trianglesArray = [
-    // 右侧
-		// 第一个面，前侧
-		-1.0, 1.0, 1.0, 1.0, 0.0, 0.0,
-		-1.0, -1.0, 1.0, 1.0, 0.0, 0.0,
-		1.0, 1.0, 1.0, 1.0, 0.0, 0.0,
-
-		1.0, 1.0, 1.0, 1.0, 0.0, 0.0,
-		-1.0, -1.0, 1.0, 1.0, 0.0, 0.0,
-		1.0, -1.0, 1.0, 1.0, 0.0, 0.0,
-
-		// 第二个面，右侧
-		1.0, 1.0, 1.0, 0.0, 1.0, 0.0,
-		1.0, -1.0, 1.0, 0.0, 1.0, 0.0,
-		1.0, 1.0, -1.0, 0.0, 1.0, 0.0,
-
-		1.0, 1.0, -1.0, 0.0, 1.0, 0.0,
-		1.0, -1.0, 1.0, 0.0, 1.0, 0.0,
-		1.0, -1.0, -1.0, 0.0, 1.0, 0.0,
-
-		// 第三个面，底侧
-		-1.0, -1.0, 1.0, 0.0, 0.0, 1.0,
-		1.0, -1.0, 1.0, 0.0, 0.0, 1.0,
-		-1.0, -1.0, -1.0, 0.0, 0.0, 1.0,
-
-		-1.0, -1.0, -1.0, 0.0, 0.0, 1.0,
-		1.0, -1.0, 1.0, 0.0, 0.0, 1.0,
-		1.0, -1.0, -1.0, 0.0, 0.0, 1.0,
-
-		// 第四个面 左侧
-		-1.0, 1.0, 1.0, 1.0, 1.0, 0.0,
-		-1.0, -1.0, 1.0, 1.0, 1.0, 0.0,
-		-1.0, 1.0, -1.0, 1.0, 1.0, 0.0,
-
-		-1.0, 1.0, -1.0, 1.0, 1.0, 0.0,
-		-1.0, -1.0, 1.0, 1.0, 1.0, 0.0,
-		-1.0, -1.0, -1.0, 1.0, 1.0, 0.0,
-
-		// 第五个面 后侧
-		-1.0, 1.0, -1.0, 0.0, 1.0, 1.0,
-		-1.0, -1.0, -1.0, 0.0, 1.0, 1.0,
-		1.0, 1.0, -1.0, 0.0, 1.0, 1.0,
-
-		1.0, 1.0, -1.0, 0.0, 1.0, 1.0,
-		-1.0, -1.0, -1.0, 0.0, 1.0, 1.0,
-		1.0, -1.0, -1.0, 0.0, 1.0, 1.0,
-
-		// 第六个面 顶侧
-
-		-1.0, 1.0, 1.0, 1.0, 0.0, 1.0,
-		1.0, 1.0, 1.0, 1.0, 0.0, 1.0,
-		-1.0, 1.0, -1.0, 1.0, 0.0, 1.0,
-
-		-1.0, 1.0, -1.0, 1.0, 0.0, 1.0,
-		1.0, 1.0, 1.0, 1.0, 0.0, 1.0,
-		1.0, 1.0, -1.0, 1.0, 0.0, 1.0,
-	];
-	var verticesColors = new Float32Array(trianglesArray);
+	var verticesColors = new Float32Array([
+    1.0, 1.0, 1.0, 0.0, 0.0, 0.0,
+    -1.0, 1.0, 1.0, 1.0, 0.0, 0.0,
+    -1.0, -1.0, 1.0, 0.0, 1.0, 0.0,
+    1.0, -1.0, 1.0, 0.0, 0.0, 1.0,
+    1.0, 1.0, -1.0, 0.0, 1.0, 1.0,
+    -1.0, 1.0, -1.0, 1.0, 1.0, 0.0,
+    1.0, -1.0, -1.0, 1.0, 0.0, 1.0,
+    -1.0, -1.0, -1.0, 1.0, 1.0, 1.0,
+  ]);
+  var indeices = new Uint8Array([
+    0, 1, 2, 0, 2, 3, // 前
+    0, 3, 4, 3, 4, 6, // 右
+    0, 1, 5, 0, 5, 4, // 上
+    1, 2, 5, 2, 7, 5, // 左
+    7, 2, 3, 7, 3, 6, // 下
+    5, 7, 4, 4, 7, 6, // 后
+  ])
 	var n = verticesColors.length / 6
 	console.log('共会址点' + n + '个')
 	var vertexColorBuffer = gl.createBuffer();
@@ -172,9 +132,13 @@ function initVertexBuffers (gl) {
 	// 将缓冲区对象分配给a_Color
 	gl.vertexAttribPointer(a_Color, 3, gl.FLOAT, false, FSIZE * 6, FSIZE * 3);
 	// 链接a_Colro与缓冲区
-	gl.enableVertexAttribArray(a_Color)
+  gl.enableVertexAttribArray(a_Color)
+  
+  var indexBuffer = gl.createBuffer();
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
+  gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, indeices, gl.STATIC_DRAW);
 
-	return n;
+	return indeices.length;
 }
 
 main()
