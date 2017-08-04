@@ -1,4 +1,4 @@
-# Chapter 7
+# 三维世界
 
 前几章我们了解了WebGL的工作原理，着色器的使用，矩阵的变换，动画纹理等，
 
@@ -16,7 +16,7 @@
 
 ## 视线和视点
 
-三维物体具有深度，也就是Z轴，你需要考虑亮点: **观察方向**和**可视距离**
+三维物体具有深度，也就是Z轴，你需要考虑两点: **观察方向**和**可视距离**
 
 我们将观察者所处的地址称为视点，而从视点出发沿着观察方向的射线称作视线
 
@@ -139,9 +139,21 @@ Matrix4.setLookAt(eyeX, eyeY, eyeZ, atX, atY, atZ, upX, upY, upZ)
 
 ![gl.polygonOffset()](../../pic/polygonOffset.png)
 
-## 通过顶点索引绘制物体
+## 使用顶点索引
+
+### Vertices and Indices
 
 ![gl.drawElements()](../../pic/drawElements.png)
+
+Vertices是定义3D对象边界的点。每个vertex都由三个浮点数组成，分别对应X轴，Y轴和Z轴。和OpenGL不同的是，WebGL并没有提供单独操作单个点进行渲染的API，因此我们需要将所有的vertices写在一个JavaScript数组中，并使用它创建WebGL vertex缓存。
+
+Indices是vertices的数字标签（numeric labels）。Indices告诉WebGL如何连接vertices。与vertices相同的是，indices同样也使用数组来创建WebGL index缓存。
+
+> 在WebGL中，有两种WebGL缓存被用作描述和处理对象。包含vertex数据的缓存被称为Vertex Buffer Objects(VBOs)。包含index数据的缓存被称为Index Buffer Objects(IBOs)。
+
+#### Vertex Buffer Objects[VBOs]
+
+VBOs保存了WebGL用于渲染对象的数据。如前面说的，vertex的坐标在VBOs中被存储及处理。不仅如此，VBOs中还有其他的（如vertex法线，颜色，纹理）数据。
 
 [demo1](http://127.0.0.1:3000/chapter7/lesson9)
 [demo2](http://127.0.0.1:3000/chapter7/lesson10)

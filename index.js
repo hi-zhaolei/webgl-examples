@@ -38,6 +38,7 @@ app.get('/chapter*/*', function(req,res){
 
 app.get("/dist/bundle.js", function(req, res){
 	webpackConfig.entry = jsPath;
+	// console.log(jsPath)
 	webpack(webpackConfig, function(err, stats){
 		if (err || stats.hasErrors()) {
 			// Handle errors here
@@ -49,16 +50,19 @@ app.get("/dist/bundle.js", function(req, res){
 
 app.get('/*', function(req, res){
 	const filePath = path.join(__dirname,req.path)
+	// console.log(req.path)
 	if(fs.statSync(filePath).isFile()){
-		// console.log(filePath)
 		res.sendFile(filePath, function(err){
 			if ( err ) console.log(err)
 		})
+		return;
 	}
 	if ( fs.statSync(filePath).isDirectory() ){
 		fs.readdir(filePath, function(err, files){
 			res.render('list', { files, rootPath: req.path })
 		})
+		return;
 	}
+	res.send('')
 })
 app.listen(3000)
