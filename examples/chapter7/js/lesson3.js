@@ -41,7 +41,8 @@ function main () {
 
 	// 设置视点，视线和上方向, 获取视图矩阵
 	viewMatrix = new Matrix4();
-	viewMatrix.setLookAt(0, 0, 0.5, 0, 0, 0, 0, 1, 0)
+	viewMatrix.setLookAt(0.25, 0.25, 0.5, 0, 0, 0, 0, 1, 0)
+	// viewMatrix.setLookAt(0.25, 0.25, 0.5, 0, 0, 0, 0.25, 0.25, 1)
 
 	// 获取模型矩阵
 	modelMatrix = new Matrix4()
@@ -96,6 +97,8 @@ function initVertexBuffers (gl) {
 	gl.vertexAttribPointer(a_Color, 3, gl.FLOAT, false, FSIZE * 6, FSIZE * 3);
 	// 链接a_Colro与缓冲区
 	gl.enableVertexAttribArray(a_Color)
+
+	gl.bindBuffer(gl.ARRAY_BUFFER, null);
 
 	return n;
 }

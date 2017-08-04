@@ -41,6 +41,7 @@ function main () {
 	// 设置视点，视线和上方向, 获取视图矩阵
 	var viewMatrix = new Matrix4();
 	viewMatrix.setLookAt(0.20, 0.25, 0.25, 0, 0, 0, 0, 1, 0)
+	// viewMatrix.setLookAt(0.0, 0.0, 0.0, 0, 0, 0, 0, 1, 0)
 	// 视图矩阵传给u_ViewMatrix变量
 	gl.uniformMatrix4fv(u_ViewMatrix, false, viewMatrix.elements)
 
@@ -61,17 +62,17 @@ function initVertexBuffers (gl) {
 		// 绿色
 		0.0, 0.5, -0.4, 0.4, 1.0, 0.4,
 		-0.5, -0.5, -0.4, 0.4, 1.0, 0.4,
-		0.5, -0.5, -0.4, 1.0, 0.4, 0.4,
+		0.5, -0.5, -0.4, 0.4, 1.0, 0.4,
 
 		// 黄色
-		0.5, 0.4, -0.2, 1.0, 0.4, 0.4,
+		0.5, 0.4, -0.2, 1.0, 1.0, 0.4,
 		-0.5, 0.4, -0.2, 1.0, 1.0, 0.4,
 		0.0, -0.6, -0.2, 1.0, 1.0, 0.4,
 
 		// 蓝色
 		0.0, 0.5, 0.0, 0.4, 0.4, 1.0,
 		-0.5, -0.5, 0.0, 0.4, 0.4, 1.0,
-		0.5, -0.5, 0.0, 1.0, 0.4, 0.4,
+		0.5, -0.5, 0.0, 0.4, 0.4, 1.0,
 	]);
 	var n = verticesColors.length / 6
 	var vertexColorBuffer = gl.createBuffer();
@@ -94,6 +95,8 @@ function initVertexBuffers (gl) {
 	gl.vertexAttribPointer(a_Color, 3, gl.FLOAT, false, FSIZE * 6, FSIZE * 3);
 	// 链接a_Colro与缓冲区
 	gl.enableVertexAttribArray(a_Color)
+
+	gl.bindBuffer(gl.ARRAY_BUFFER, null);
 
 	return n;
 }

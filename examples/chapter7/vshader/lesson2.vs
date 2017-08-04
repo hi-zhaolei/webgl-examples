@@ -6,7 +6,9 @@ varying vec4 v_Color;
 void main() {
 
   gl_Position = u_ViewModelMatrix * a_Position;
+
   gl_PointSize = 10.0;
+  
   v_Color = a_Color;
 
 }

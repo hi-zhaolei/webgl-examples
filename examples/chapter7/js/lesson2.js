@@ -61,17 +61,17 @@ function initVertexBuffers (gl) {
 		// 绿色
 		0.0, 0.5, -0.4, 0.4, 1.0, 0.4,
 		-0.5, -0.5, -0.4, 0.4, 1.0, 0.4,
-		0.5, -0.5, -0.4, 1.0, 0.4, 0.4,
+		0.5, -0.5, -0.4, 0.4, 1.0, 0.4,
 
 		// 黄色
-		0.5, 0.4, -0.2, 1.0, 0.4, 0.4,
+		0.5, 0.4, -0.2, 1.0, 1.0, 0.4,
 		-0.5, 0.4, -0.2, 1.0, 1.0, 0.4,
 		0.0, -0.6, -0.2, 1.0, 1.0, 0.4,
 
 		// 蓝色
 		0.0, 0.5, 0.0, 0.4, 0.4, 1.0,
 		-0.5, -0.5, 0.0, 0.4, 0.4, 1.0,
-		0.5, -0.5, 0.0, 1.0, 0.4, 0.4,
+		0.5, -0.5, 0.0, 0.4, 0.4, 1.0,
 	]);
 	var n = verticesColors.length / 6
 	var vertexColorBuffer = gl.createBuffer();
@@ -94,6 +94,8 @@ function initVertexBuffers (gl) {
 	gl.vertexAttribPointer(a_Color, 3, gl.FLOAT, false, FSIZE * 6, FSIZE * 3);
 	// 链接a_Colro与缓冲区
 	gl.enableVertexAttribArray(a_Color)
+
+	gl.bindBuffer(gl.ARRAY_BUFFER, null);
 
 	return n;
 }

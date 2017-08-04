@@ -174,6 +174,8 @@ function initVertexBuffers (gl) {
 	// 链接a_Colro与缓冲区
 	gl.enableVertexAttribArray(a_Color)
 
+	gl.bindBuffer(gl.ARRAY_BUFFER, null);
+
 	return n;
 }
 

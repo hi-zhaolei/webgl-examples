@@ -127,16 +127,21 @@ function initVertexBuffers (gl) {
 	gl.vertexAttribPointer(a_Position, 3, gl.FLOAT, false, FSIZE * 6, 0)
 	// 链接a_Position变量与分配给他的缓存区对象
 	gl.enableVertexAttribArray(a_Position);
+	// 
 
 	var a_Color = gl.getAttribLocation(gl.program, 'a_Color');
 	// 将缓冲区对象分配给a_Color
 	gl.vertexAttribPointer(a_Color, 3, gl.FLOAT, false, FSIZE * 6, FSIZE * 3);
 	// 链接a_Colro与缓冲区
-  gl.enableVertexAttribArray(a_Color)
+	gl.enableVertexAttribArray(a_Color)
+	// 
+	gl.bindBuffer(gl.ARRAY_BUFFER, null);
   
   var indexBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
-  gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, indeices, gl.STATIC_DRAW);
+	gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, indeices, gl.STATIC_DRAW);
+
+	// gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
 
 	return indeices.length;
 }
