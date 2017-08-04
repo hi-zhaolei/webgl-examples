@@ -60,10 +60,17 @@ function main () {
 
   // 开启隐藏面消除
   gl.enable(gl.DEPTH_TEST);
-  gl.enable(gl.POLYGON_OFFSET_FILL);
+	gl.enable(gl.POLYGON_OFFSET_FILL);
+  // gl.enable(gl.DEPTH_TEST | gl.POLYGON_OFFSET_FILL);	
 	// 背景色
 	gl.clearColor( 0.0, 0.0, 0.0, 1.0)
 	gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+
+	console.log( 'DEPTH_TEST', gl.DEPTH_TEST )
+	console.log( 'POLYGON_OFFSET_FILL', gl.POLYGON_OFFSET_FILL )
+	console.log( 'BLEND', gl.BLEND )
+	console.log( 'COLOR_BUFFER_BIT', gl.COLOR_BUFFER_BIT )	
+	console.log( 'DEPTH_BUFFER_BIT', gl.DEPTH_BUFFER_BIT )
 	//
   gl.drawArrays(gl.TRIANGLES, 0, n/2);
   gl.polygonOffset(1.0, 1.0);
